@@ -1,0 +1,92 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Button name="UnBotBagsButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension y="30" x="30"/>
+		</Size>
+	</Button>
+	<CheckButton name="UnBotBagsTypeTemplate" checked="false" virtual="true">
+		<Size>
+		  <AbsDimension x="30" y="30" />
+		</Size>
+		<NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
+		<PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
+		<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD" />
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
+		<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
+		<Scripts>
+			<OnLoad>
+			</OnLoad>
+			<OnClick>
+				BagsTypeOptionsClick(self, self.parentFrame, self.afterRemove);
+			</OnClick>
+		</Scripts>
+	</CheckButton>
+	<Frame name="UnBotBagsFrameHeadFrame" toplevel="true" frameStrata="LOW" virtual="true" hidden="false">
+		<Size x="330" y="32"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize val="16"/>
+			<TileSize val="16"/>
+			<BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+			<Color r="0.1" g="0.1" b="0.1" a="0.1"/>
+		</Backdrop>
+	</Frame>
+	<Frame name="UnBotBagsFrame" movable="true" enableMouse="true" toplevel="true" frameStrata="LOW" virtual="true" hidden="false">
+		<TitleRegion setAllPoints="true"/>
+		<Size x="330" y="220"/>
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER">
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize val="16"/>
+			<TileSize val="16"/>
+			<BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+			<Color r="0.3" g="0.3" b="0.3" a="1.0"/>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				self.normalIcon = "Interface\\Icons\\Temp";
+				self.disableIcon = "Interface\\BUTTONS\\UI-PageButton-Background";
+				self.Inited = false;
+				self:Hide();
+				self.bagsType = 0;
+				self.optionsType = {};
+				self.bgIconsGroup = nil;
+				self.dataGroup = nil;
+				self.currentPage = 1;
+				self.pageCount = 40;
+				self.index = -1;
+				self.afterRemove = false;
+				self.raceName = "";
+				self.target = "";
+				self.activeText = "";
+				self.command = "";
+				self.flushFunc = nil;
+				self.getFunc = nil;
+				self.lastFlushTick = 0;
+				self.waitFlushTime = 2;
+			</OnLoad>
+			<OnEvent>
+				if (event == "CHAT_MSG_WHISPER") then
+					if (UnBotCanFlushInfo(self) == true and arg2 == self.target) then
+						if (self.bagsType == 1) then
+							RecvOnceItemToBags(self, arg1);
+						elseif (self.bagsType == 2) then
+							RecvMuchSpellToBags(self, arg1);
+						end
+					end
+				end
+			</OnEvent>
+			<OnUpdate>
+				UnBotTick(self, GetTime());
+			</OnUpdate>
+		</Scripts>
+		<Frames>
+		</Frames>
+	</Frame>
+</Ui>

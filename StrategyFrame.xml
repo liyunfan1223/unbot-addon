@@ -1,0 +1,176 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Button name="StrategyOptionTemplate" virtual="true" inherits="UIPanelButtonTemplate">
+	<Size>
+	  <AbsDimension x="110" y="18" />
+	</Size>
+	<NormalTexture file="Interface\BUTTONS\UI-Listbox-Highlight2">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</NormalTexture>
+	<PushedTexture file="Interface\BUTTONS\UI-DialogBox-Button-Up" alphaMode="ADD">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</PushedTexture>
+	<HighlightTexture file="interface\buttons\UI-Common-MouseHilight" alphaMode="ADD">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</HighlightTexture>
+	<ButtonText name="$parentText">
+	  <FontHeight>
+		<AbsValue val="14" />
+	  </FontHeight>
+	</ButtonText>
+	<NormalFont style="GameFontNormal" />
+	<HighlightFont style="GameFontHighlight" />
+	<Scripts>
+		<OnLoad>
+			self.strategyFrame = nil;
+			self.targetName = "";
+			self.use = false;
+			self.data = nil;
+			self.strategyType = 0;
+			self.enableIcon = "Interface\\BUTTONS\\UI-Listbox-Highlight";
+			self.disableIcon = "Interface\\BUTTONS\\UI-Listbox-Highlight2";
+		</OnLoad>
+		<OnEnter>
+			StrategyOption_OnEnter(self, self.targetName, self.use, self.strategyType, self.data);
+		</OnEnter>
+		<OnLeave>
+			GameTooltip:Hide();
+		</OnLeave>
+		<OnClick>
+		</OnClick>
+		<OnMouseUp>
+			if ( arg1 == "LeftButton" or arg1 == "RightButton" ) then
+				if (self.data ~= nil) then
+					StrategyOption_OnClick(self, self.strategyFrame, self.use, self.targetName, self.strategyType, self.data[1]);
+				end
+			end
+		</OnMouseUp>
+	</Scripts>
+  </Button>
+  <Slider name="StrategyListFrameSlider" minValue="0" maxValue="100" defaultValue="0" valueStep="18" virtual="true">
+	<Size>
+	  <AbsDimension x="20" y="320" />
+	</Size>
+	<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+	  <BackgroundInsets>
+		<AbsInset left="3" right="3" top="6" bottom="6" />
+	  </BackgroundInsets>
+	  <TileSize>
+		<AbsValue val="8" />
+	  </TileSize>
+	  <EdgeSize>
+		<AbsValue val="8" />
+	  </EdgeSize>
+	</Backdrop>
+	<HitRectInsets>
+	  <AbsInset left="0" right="0" top="-10" bottom="-10" />
+	</HitRectInsets>
+	<ThumbTexture name="$parentThumb" file="Interface\LFGFRAME\BattlenetWorking0">
+	  <Size>
+		<AbsDimension x="32" y="24" />
+	  </Size>
+	</ThumbTexture>
+	<Scripts>
+		<OnValueChanged>
+			self.scrollFrame:SetVerticalScroll(self:GetValue());
+		</OnValueChanged>
+	</Scripts>
+  </Slider>
+	<ScrollFrame name="StrategyListFrameTemplate" enableMouse="true" EnableMouseWheel="true" virtual="true" >
+		<Size>
+		  <AbsDimension x="140" y="320" />
+		</Size>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize val="16"/>
+			<TileSize val="16"/>
+			<BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+			<Color r="1.0" g="1.0" b="1.0" a="0.5"/>
+		</Backdrop>
+		<Scripts>
+			<OnLoad>
+				self.strategies = {};
+			</OnLoad>
+			<OnMouseWheel>
+				local at = self.slider:GetValue();
+				if (arg1 == 1) then
+					self.slider:SetValue(at + (-1) * self.slider:GetValueStep());
+				elseif (arg1 == -1) then
+					self.slider:SetValue(at + self.slider:GetValueStep());
+				end
+			</OnMouseWheel>
+		</Scripts>
+		<Frames>
+		</Frames>
+	</ScrollFrame>
+  <Frame name="StrategyFrameTemplate" movable="true" enableMouse="true" virtual="true" toplevel="true" frameStrata="LOW" hidden="true">
+	<TitleRegion setAllPoints="true"/>
+    <Size>
+      <AbsDimension x="340" y="400" />
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER">
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11" />
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32" />
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32" />
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+      <Layer>
+        <Texture name="$parentTitleBorder" file="Interface\DialogFrame\UI-DialogBox-Header">
+          <Size>
+            <AbsDimension x="280" y="60" />
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="24" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
+        </Texture>
+      </Layer>
+    </Layers>
+	<Scripts>
+		<OnLoad>
+			self.delayTime = 1;
+			self.tickTime = 0;
+			self:RegisterEvent("CHAT_MSG_WHISPER");
+		</OnLoad>
+		<OnEvent>
+			if (event == "CHAT_MSG_WHISPER") then
+				if (arg2 == self.targetName) then
+					local f1, f2 = string.find(arg1, "Strategies:");
+					if (f1 ~= nil or f2 ~= nil) then
+						if (self.recvType == 1 or self.recvType == 3) then
+							if (self.recvType == 1) then
+								self.recvType = 2;
+								SendChatMessage("nc ?", "WHISPER", nil, self.targetName);
+							else
+								self.recvType = 0;
+							end
+							local info = string.sub(arg1, f2+1);
+							UnBotRecvStrategyCOInfo(self, info);
+						elseif (self.recvType == 2) then
+							self.recvType = 0;
+							local info = string.sub(arg1, f2+1);
+							UnBotRecvStrategyNCInfo(self, info);
+						end
+					end
+				end
+			end
+		</OnEvent>
+		<OnUpdate>
+			UnBotStrategyFrameTick(self, GetTime());
+		</OnUpdate>
+	</Scripts>
+  </Frame>
+</Ui>

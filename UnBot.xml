@@ -1,0 +1,324 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Frame name="UnBotFrame" movable="true" enableMouse="true" toplevel="true" frameStrata="LOW" virtual="false" hidden="false">
+		<TitleRegion setAllPoints="true"/>
+		<Size x="410" y="42"/>
+		<Anchors>
+			<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT">
+				<Offset>
+					<AbsDimension x="-230" y="100"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				SLASH_UNBOT1 = "/unbot";
+				SLASH_UNBOT2 = "/ub";
+				SlashCmdList["UNBOT"] = function()
+					if (UnBotFrame:IsShown()) then
+						UnBotCloseAll();
+					else
+						UnBotFrame:Show();
+					end
+				end
+				SLASH_UNBOTCOM1 = "/unbotcom";
+				SLASH_UNBOTCOM2 = "/ubc";
+				SlashCmdList["UNBOTCOM"] = function(msg)
+					local index = tonumber(msg);
+					if (index ~= nil) then
+						SubCommandButton_OnLeftClick(index);
+					end
+				end
+				
+				self.Inited = false;
+				self.DelayInitTime = 0;
+				self.ShowedQRs = {};
+				self.ShowedBags = {};
+				self.ShowedStrategy = {};
+				self.currentRecvLinkFrame = nil;
+				self:RegisterEvent("ADDON_LOADED");
+				self:RegisterEvent("UPDATE_BINDINGS");
+				self:RegisterEvent("CHAT_MSG_WHISPER");
+				self:RegisterEvent("RAID_TARGET_UPDATE");
+			</OnLoad>
+			<OnEvent>
+				if (event == "ADDON_LOADED" and arg1 == "UnBot") then
+					InitializeUnBotFrame();
+					UnBotLogInfo = {};
+					self.DelayInitTime = GetTime() + 3;
+				elseif (event == "UPDATE_BINDINGS") then
+					UnBotUpdateHotkeys();
+				elseif (event == "CHAT_MSG_WHISPER") then
+					CaseNormalWhisperMsg(arg2, arg1);
+				elseif (event == "RAID_TARGET_UPDATE") then
+				end
+			</OnEvent>
+			<OnUpdate>
+				UnBotFrameUpdate(self, GetTime());
+			</OnUpdate>
+		</Scripts>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<EdgeSize val="16"/>
+			<TileSize val="16"/>
+			<BackgroundInsets left="5" right="5" top="5" bottom="5"/>
+			<Color r="1.0" g="1.0" b="1.0" a="0.2"/>
+		</Backdrop>
+		<Frames>
+			<Button name="UnBotCommandButton1" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="5"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 1;
+						self.comIndex = 13;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton2" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="40"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 2;
+						self.comIndex = 15;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton3" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="75"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 3;
+						self.comIndex = 25;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton4" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="110"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 4;
+						self.comIndex = 32;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton5" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="145"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 5;
+						self.comIndex = 38;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton6" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="180"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 6;
+						self.comIndex = 47;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton7" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="215"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 7;
+						self.comIndex = 64;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton8" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="250"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 8;
+						self.comIndex = 69;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton9" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="285"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 9;
+						self.comIndex = 9;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButton10" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+						<Offset> <AbsDimension y="-5" x="320"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 10;
+						self.comIndex = 81;
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button name="UnBotCommandButtonFunc" inherits="UnBotCommandButtonTemplate" parent="UnBotFrame">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset> <AbsDimension y="-5" x="-5"/> </Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self.groupIndex = 0;
+						self.comIndex = 0;
+					</OnLoad>
+					<OnShow>
+						self.showMenu = false;
+						self.Icon = self:CreateTexture("UnBotCommandButtonFuncIcon","BACKGROUND");
+						self.Icon:SetTexture([[Interface\Icons\Temp]]);
+						self.Icon:SetAllPoints(self);
+						self.Icon:Show();
+						self:SetPushedTexture([[Interface\BUTTONS\UI-Quickslot-Depress]]);
+						self:SetHighlightTexture([[Interface\Buttons\UI-Common-MouseHilight]],"ADD");
+						local bindingKeytext = self:CreateFontString("UnBotCommandButtonFuncLabel", "ARTWORK", "GameFontNormalSmall");
+						bindingKeytext:SetFont([[Fonts\ZYHei.ttf]],12);
+						bindingKeytext:SetPoint("TOP", self.Icon, "TOP", 1, -1);
+					</OnShow>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="UnBotSubFrame1" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton1">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 1;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame2" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton2">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 2;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame3" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton3">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 3;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame4" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton4">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 4;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame5" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton5">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 5;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame6" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton6">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 6;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame7" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton7">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 7;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame8" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton8">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 8;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame9" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton9">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 9;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="UnBotSubFrame10" enableMouse="true" inherits="UnBotSubFrameTemplate" parent="UnBotCommandButton10">
+		<Scripts>
+			<OnLoad>
+				self.groupIndex = 10;
+				self.lastButton = self;
+				self.nextSubButtonIndex = 1;
+				self:Hide();
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

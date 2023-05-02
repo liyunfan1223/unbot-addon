@@ -1,0 +1,276 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+	<Button name="UnBotEquipInventoryButtonTemplate" frameStrata="HIGH" virtual="true">
+		<Size>
+			<AbsDimension y="40" x="40"/>
+		</Size>
+		<Scripts>
+			<OnLoad>
+				self.targetName = nil;
+				self.item = nil;
+				self.targetEquip = nil;
+			</OnLoad>
+            <OnEnter>
+				if (self.item ~= nil) then
+					GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
+					GameTooltip:SetHyperlink("item:"..tostring(self.item[3])..":0:0:0:0:0:0:0");
+					GameTooltip:AddLine(" ",1,1,1,1);
+					GameTooltip:AddLine("鼠标左键单击：让 "..self.targetName.." 装备这个道具。",0.75,0.75,0,1);
+					GameTooltip:Show();
+				end
+			</OnEnter>
+            <OnLeave>
+ 				if (self.item ~= nil) then
+					GameTooltip:Hide();
+				end
+            </OnLeave>
+            <OnClick>
+				if (self.item ~= nil) then
+					local itemLink = "|cffffffff|Hitem:"..tostring(self.item[3])..":0:0:0:0:0:0:0|h["..tostring(self.item[5]).."]|h|r";
+					SendChatMessage("e "..tostring(itemLink), "WHISPER", nil, self.targetName);
+					UnBotStartReloadInspectFrame();
+				end
+				EquipInventoryFrame:Hide();
+			</OnClick>
+		</Scripts>
+        <NormalTexture setAllPoints="true" file="Interface\Icons\Temp">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </NormalTexture>
+        <PushedTexture setAllPoints="true" file="Interface\Icons\Temp" alphaMode="ADD">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </PushedTexture>
+        <HighlightTexture setAllPoints="true" file="interface\buttons\UI-Common-MouseHilight" alphaMode="ADD">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </HighlightTexture>
+	</Button>
+  <Frame name="EquipInventoryFrame" movable="false" enableMouse="true" frameStrata="HIGH" hidden="true">
+    <Size>
+      <AbsDimension x="208" y="188" />
+    </Size>
+	<Scripts>
+		<OnLoad>
+			self.targetName = nil;
+			self.targetEquip = nil;
+			self.inventoryItems = {};
+			self.inventoryItemButtons = {};
+			for i=1, 12 do
+				local btn = _G["EquipInventoryItemSlot"..tostring(i)];
+				if (btn ~= nil) then
+					table.insert(self.inventoryItemButtons, btn);
+				end
+			end
+		</OnLoad>
+		<OnUpdate>
+		</OnUpdate>
+	</Scripts>
+    <Frames>
+      <Frame name="EquipInventoryBG" frameStrata="HIGH">
+        <Size>
+          <AbsDimension x="208" y="188" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="0" y="0" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture name="$parentTexture" setAllPoints="true" file="interface\containerframe\ui-bag-3x4-bank">
+              <TexCoords left="0.25" right="0.99" top="0" bottom="0.69" />
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+      <Button name="EquipInventoryCloseButton" frameStrata="HIGH" inherits="UIPanelCloseButton">
+        <Size>
+          <AbsDimension x="38" y="38" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="175" y="1" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Frame name="EquipInventoryTitleText" frameStrata="HIGH">
+        <Size>
+          <AbsDimension x="128" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="50" y="-8" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentLabel" font="Fonts\blei00d.TTF" text="装备穿戴选择">
+              <Anchors>
+                <Anchor point="TOPLEFT" />
+                <Anchor point="BOTTOMRIGHT" />
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="18" />
+              </FontHeight>
+              <Color r="1" g="0.8" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+      </Frame>
+      <Button name="EquipInventoryItemSlot12" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="157" y="-140" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot11" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="111" y="-140" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot10" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="65" y="-140" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot9" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-140" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot8" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="156" y="-97" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot7" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="111" y="-97" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot6" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="65" y="-97" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot5" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-97" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot4" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="156" y="-52" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot3" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="110" y="-52" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot2" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="65" y="-52" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="EquipInventoryItemSlot1" inherits="UnBotEquipInventoryButtonTemplate">
+        <Size>
+          <AbsDimension x="40" y="40" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-52" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Button>
+    </Frames>
+  </Frame>
+</Ui>

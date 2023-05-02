@@ -1,0 +1,109 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Frame name="QuestRewardFrame" movable="true" enableMouse="true" toplevel="true" frameStrata="LOW" hidden="true" virtual="true">
+	<TitleRegion setAllPoints="true"/>
+    <Size>
+      <AbsDimension x="180" y="80" />
+    </Size>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11" />
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32" />
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32" />
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+      <Layer>
+        <Texture name="$parentTitleBorder" file="Interface\DialogFrame\UI-DialogBox-Header">
+          <Size>
+            <AbsDimension x="300" y="48" />
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="18" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
+        </Texture>
+        <FontString name="$parentTitleLabel" font="Fonts\ZYHei.TTF" text="完成任务选择奖励">
+          <Size>
+            <AbsDimension x="280" y="0" />
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="2" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="18" />
+          </FontHeight>
+          <Color r="1" g="0" b="0" />
+          <Shadow>
+            <Color r="0" g="0" b="0" />
+            <Offset>
+              <AbsDimension x="1" y="-1" />
+            </Offset>
+          </Shadow>
+        </FontString>
+      </Layer>
+    </Layers>
+	<Scripts>
+		<OnLoad>
+			self.rewardItems = {};
+			self.rewardBtns = {};
+			self.showTick = 0;
+			self.waitTime = 60;
+		</OnLoad>
+		<OnUpdate>
+			UnBotQuestRewardTick(self, GetTime());
+		</OnUpdate>
+	</Scripts>
+    <Frames>
+      <StatusBar name="$parentTickBar" drawLayer="OVERLAY" minValue="0" maxValue="1" defaultValue="1">
+        <Size>
+          <AbsDimension x="235" y="25" />
+        </Size>
+        <BarTexture file="interface\questframe\ui-questtitlehighlight" alphaMode="ADD" />
+        <BarColor r="0.8" g="0.8" b="0" a="0.7" />
+      </StatusBar>
+    </Frames>
+  </Frame>
+	<Button name="QuestRewardButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension y="32" x="32"/>
+		</Size>
+		<Scripts>
+			<OnShow>
+			</OnShow>
+			<OnEnter>
+				UnBotShowQuestRewardTips(self, self.item);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnClick>
+				UnBotSelectQuestReward(self, self.item);
+			</OnClick>
+		</Scripts>
+        <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </NormalTexture>
+        <PushedTexture setAllPoints="true" file="interface\buttons\greengrad64" alphaMode="ADD">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </PushedTexture>
+        <DisabledTexture setAllPoints="true" file="Interface\Buttons\UI-Panel-Button-Disabled" alphaMode="ADD">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </DisabledTexture>
+        <HighlightTexture setAllPoints="true" file="interface\buttons\UI-Common-MouseHilight" alphaMode="ADD">
+          <TexCoords left="0" right="1" top="0" bottom="1" />
+        </HighlightTexture>
+	</Button>
+</Ui>

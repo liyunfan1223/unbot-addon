@@ -1,0 +1,35 @@
+<Bindings>
+	<Binding name="CLICK UnBotCommandButton1:LeftButton" runOnUp="true" header="UnBotFrame">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton2:LeftButton" runOnUp="true">	
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton3:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton4:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton5:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton6:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton7:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton8:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton9:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButton10:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>
+	<Binding name="CLICK UnBotCommandButtonFunc:LeftButton" runOnUp="true">		
+		-- NULL_FUNCTION();
+	</Binding>	
+</Bindings>

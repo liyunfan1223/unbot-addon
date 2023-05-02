@@ -1,0 +1,31 @@
+## Interface: 30300
+## Title: UnBot
+## Title-zhCN: |cff0000ffUnWOW 机器人控制器|r
+## Title-zhTW: |cff0000ffUnWOW 机器人控制器|r
+## Notes: UnWOW Bot Controller
+## Notes-zhCN: UnWOW 机器人控制器（本插件只针对UnWOW的随机和帐号机器人，NPC机器人进行简单支持，且只支持335 for 80级版本，60和70级版本不考虑）
+## Notes-zhTW: UnWOW 机器人控制器（本插件只针对UnWOW的随机和帐号机器人，NPC机器人进行简单支持，且只支持335 for 80级版本，60和70级版本不考虑）
+## Dependencies: YssBossLoot
+## Version: 0.4
+## Author: GPD
+## SavedVariables: UnBotCommandBarConfig, UnBotLogInfo
+Bindings.lua
+UnBotTemplate.xml
+UnBotBagsTemplate.xml
+UnBot.xml
+ExecuteCommand.lua
+UnBot.lua
+UnBotBags.lua
+Tooltips.lua
+IconsFilename.lua
+Online.lua
+OnlineFrame.xml
+NPCFrame.lua
+NPCFrame.xml
+QuestReward.lua
+QuestRewardFrame.xml
+Strategy.lua
+StrategyFrame.xml
+StrategyTips.lua
+ImplantInspectFrame.lua
+EquipInventory.xml

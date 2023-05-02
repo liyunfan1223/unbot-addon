@@ -1,0 +1,90 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Frame name="UnBotSubFrameTemplate" enableMouse="true" toplevel="false" frameStrata="LOW" virtual="true" hidden="false">
+		<Size x="1" y="1"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+				<Offset>
+					<AbsDimension x="0" y="1"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</Frame>
+
+	<Button name="UnBotCommandButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension y="32" x="32"/>
+		</Size>
+		<Scripts>
+			<OnShow>
+				self.showMenu = false;
+				self.Icon = self:CreateTexture("UnBotCommandIcon"..tostring(self.groupIndex),"BACKGROUND");
+				self.Icon:SetAllPoints(self);
+				self.Icon:Show();
+				self:SetPushedTexture([[Interface\BUTTONS\UI-Quickslot-Depress]]);
+				self:SetHighlightTexture([[Interface\Buttons\UI-Common-MouseHilight]],"ADD");
+				local bindingKeytext = self:CreateFontString("$parentLabel", "ARTWORK", "GameFontNormalSmall");
+				bindingKeytext:SetFont([[Fonts\ZYHei.ttf]],12);
+				bindingKeytext:SetPoint("TOP", self.Icon, "TOP", 1, -1);
+			</OnShow>
+			<OnEnter>
+				CommandButton_OnEnter(self,self.comIndex,1);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnMouseUp>
+				if ( arg1 == "RightButton" ) then
+					if (self.groupIndex > 0) then
+						local subFrame = _G["UnBotSubFrame"..tostring(self.groupIndex)];
+						if(subFrame) then
+							if (self.showMenu == true) then
+								self.showMenu = false;
+								subFrame:Hide();
+							else
+								self.showMenu = true;
+								subFrame:Show();
+							end
+						end
+					else
+						UnBotCloseAll();
+					end
+				end
+			</OnMouseUp>
+			<OnClick>
+				SubCommandButton_OnLeftClick(self.comIndex);
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="UnBotCommandSubButtonTemplate" virtual="true">
+		<Size>
+			<AbsDimension y="32" x="32"/>
+		</Size>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+				<Offset>
+					<AbsDimension y="1" x="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnShow>
+				self.Icon = getglobal("UnBotSubIcon"..tostring(self.comIndex));
+			</OnShow>
+			<OnEnter>
+				CommandButton_OnEnter(self,self.comIndex,2);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnMouseUp>
+				if ( arg1 == "RightButton" ) then
+					ResetCommandToAction(self,self.comIndex,true);
+				end
+			</OnMouseUp>
+			<OnClick>
+				SubCommandButton_OnLeftClick(self.comIndex);
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

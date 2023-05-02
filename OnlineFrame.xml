@@ -1,0 +1,664 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+  <Button name="MemberBarTemplate" virtual="true">
+	<Size>
+	  <AbsDimension x="375" y="20" />
+	</Size>
+	<Anchors>
+	  <Anchor point="TOPLEFT">
+		<Offset>
+		  <AbsDimension x="10" y="-10" />
+		</Offset>
+	  </Anchor>
+	</Anchors>
+	<NormalTexture file="interface\buttons\UI-Common-MouseHilight" alphaMode="ADD">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</NormalTexture>
+	<PushedTexture file="interface\buttons\greengrad64" alphaMode="ADD">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</PushedTexture>
+	<HighlightTexture file="interface\buttons\ui-listbox-highlight" alphaMode="ADD">
+	  <TexCoords left="0" right="1" top="0" bottom="1" />
+	</HighlightTexture>
+	<ButtonText name="$parentText">
+	  <FontHeight>
+		<AbsValue val="14" />
+	  </FontHeight>
+	</ButtonText>
+	<NormalFont style="GameFontNormal" />
+	<HighlightFont style="GameFontHighlight" />
+	<DisabledFont style="GameFontDisable" />
+	<Scripts>
+		<OnClick>
+			if (self.unit ~= nil and self.unit[1] ~= nil) then
+				SendChatMessage(".bot add "..self.unit[1], "SAY");
+			end
+		</OnClick>
+		<OnMouseUp>
+			if ( arg1 == "RightButton" ) then
+				if (self.unit ~= nil and self.unit[1] ~= nil) then
+					if (UnitInParty(self.unit[1]) == nil and UnitInRaid(self.unit[1]) == nil) then
+						InviteUnit(self.unit[1]);
+					else
+						DisplayInfomation(self.unit[1].."已经在你的队伍中了。");
+					end
+				end
+			end
+		</OnMouseUp>
+	</Scripts>
+  </Button>
+  <CheckButton name="OptionsTypeTemplate" checked="false" virtual="true">
+	<Size>
+	  <AbsDimension x="48" y="48" />
+	</Size>
+	<NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
+	<PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
+	<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD" />
+	<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
+	<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
+	<Scripts>
+		<OnLoad>
+			self.members = {};
+		</OnLoad>
+		<OnClick>
+			UnBotUpdateChecked(self);
+		</OnClick>
+	</Scripts>
+  </CheckButton>
+  <Frame name="OnlineFrame" movable="true" enableMouse="true" toplevel="true" frameStrata="LOW" hidden="true">
+	<TitleRegion setAllPoints="true"/>
+    <Size>
+      <AbsDimension x="610" y="470" />
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER">
+        <Offset>
+          <AbsDimension x="0" y="0" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11" />
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32" />
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32" />
+      </EdgeSize>
+    </Backdrop>
+    <Layers>
+      <Layer>
+        <Texture name="$parentTitleBorder" file="Interface\DialogFrame\UI-DialogBox-Header">
+          <Size>
+            <AbsDimension x="160" y="48" />
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="18" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
+        </Texture>
+        <FontString name="$parentTitleString" font="Fonts\ZYHei.TTF" text="挑选机器人上线">
+          <Size>
+            <AbsDimension x="140" y="0" />
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="2" />
+              </Offset>
+            </Anchor>
+          </Anchors>
+          <FontHeight>
+            <AbsValue val="18" />
+          </FontHeight>
+          <Color r="1" g="0" b="0" />
+          <Shadow>
+            <Color r="0" g="0" b="0" />
+            <Offset>
+              <AbsDimension x="1" y="-1" />
+            </Offset>
+          </Shadow>
+        </FontString>
+      </Layer>
+    </Layers>
+	<Scripts>
+		<OnLoad>
+			self.scrollFrame = nil;
+			self.slider = nil;
+			self.child = nil;
+			self.options = {};
+		</OnLoad>
+		<OnShow>
+			UnBotShowOnlineFrame();
+		</OnShow>
+	</Scripts>
+    <Frames>
+      <Button name="$parentClose" inherits="UIPanelCloseButton">
+        <Size>
+          <AbsDimension x="64" y="64" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="562" y="24" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <NormalFont style="GameFontNormal" />
+        <HighlightFont style="GameFontHighlight" />
+        <DisabledFont style="GameFontDisable" />
+      </Button>
+      <Frame name="$parentHelpLabel">
+        <Size>
+          <AbsDimension x="410" y="20" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="155" y="-25" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentLabel" font="Fonts\ZYHei.TTF" text="鼠标左键点击让机器人上线，鼠标右键点击邀请它加入队伍">
+              <Anchors>
+                <Anchor point="TOPLEFT" />
+                <Anchor point="BOTTOMRIGHT" />
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="16" />
+              </FontHeight>
+              <Color r="1" g="0.75" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+      </Frame>
+      <ScrollFrame name="$parentListBox" enableMouse="true" EnableMouseWheel="true">
+        <Size>
+          <AbsDimension x="424" y="375" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="165" y="-60" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+		<Scripts>
+			<OnLoad>
+				OnlineFrame.scrollFrame = self;
+			</OnLoad>
+			<OnMouseWheel>
+				local at = OnlineFrame.slider:GetValue();
+				if (arg1 == 1) then
+					OnlineFrame.slider:SetValue(at + (-1) * OnlineFrame.slider:GetValueStep());
+				elseif (arg1 == -1) then
+					OnlineFrame.slider:SetValue(at + OnlineFrame.slider:GetValueStep());
+				end
+			</OnMouseWheel>
+		</Scripts>
+        <Frames>
+          <Slider name="OnlineFrameSlider" minValue="0" maxValue="100" defaultValue="0" valueStep="5">
+            <Size>
+              <AbsDimension x="25" y="375" />
+            </Size>
+            <Anchors>
+              <Anchor point="TOPLEFT">
+                <Offset>
+                  <AbsDimension x="395" y="0" />
+                </Offset>
+              </Anchor>
+            </Anchors>
+            <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+              <BackgroundInsets>
+                <AbsInset left="3" right="3" top="6" bottom="6" />
+              </BackgroundInsets>
+              <TileSize>
+                <AbsValue val="8" />
+              </TileSize>
+              <EdgeSize>
+                <AbsValue val="8" />
+              </EdgeSize>
+            </Backdrop>
+            <HitRectInsets>
+              <AbsInset left="0" right="0" top="-10" bottom="-10" />
+            </HitRectInsets>
+            <ThumbTexture name="$parentThumb" file="interface\buttons\ui-grouploot-de-up">
+              <Size>
+                <AbsDimension x="32" y="32" />
+              </Size>
+            </ThumbTexture>
+			<Scripts>
+				<OnLoad>
+					OnlineFrame.slider = self;
+				</OnLoad>
+				<OnValueChanged>
+					OnlineFrame.scrollFrame:SetVerticalScroll(self:GetValue());
+				</OnValueChanged>
+			</Scripts>
+          </Slider>
+        </Frames>
+      </ScrollFrame>
+      <CheckButton name="OnlineFrameWarrior" inherits="OptionsTypeTemplate" gameclasstype="WARRIOR">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-67" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会战士">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "WARRIOR";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameFriend" inherits="OptionsTypeTemplate" gameclasstype="FRIENDS">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-29" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="好友名单">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "FRIENDS";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFramePaladin" inherits="OptionsTypeTemplate" gameclasstype="PALADIN">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-105" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会圣骑士">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "PALADIN";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameRogue" inherits="OptionsTypeTemplate" gameclasstype="ROGUE">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-143" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会盗贼">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "ROGUE";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameDruid" inherits="OptionsTypeTemplate" gameclasstype="DRUID">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-181" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会德鲁伊">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "DRUID";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameHunter" inherits="OptionsTypeTemplate" gameclasstype="HUNTER">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-219" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会猎人">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "HUNTER";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameShaman" inherits="OptionsTypeTemplate" gameclasstype="SHAMAN">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-257" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会萨满">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "SHAMAN";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameMage" inherits="OptionsTypeTemplate" gameclasstype="MAGE">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-295" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会法师">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "MAGE";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameWarlock" inherits="OptionsTypeTemplate" gameclasstype="WARLOCK">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-333" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会术士">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "WARLOCK";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFramePriest" inherits="OptionsTypeTemplate" gameclasstype="PRIEST">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-371" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会牧师">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "PRIEST";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+      <CheckButton name="OnlineFrameDK" inherits="OptionsTypeTemplate" gameclasstype="DEATHKIGHT">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="19" y="-409" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer>
+            <FontString name="$parentText" font="Fonts\ZYHei.TTF" text="工会死亡骑士">
+              <Anchors>
+                <Anchor point="LEFT" relativePoint="RIGHT">
+                  <Offset>
+                    <AbsDimension x="-2" y="0" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <FontHeight>
+                <AbsValue val="15" />
+              </FontHeight>
+              <Color r="1" g="0.8196079" b="0" />
+              <Shadow>
+                <Color r="0" g="0" b="0" />
+                <Offset>
+                  <AbsDimension x="1" y="-1" />
+                </Offset>
+              </Shadow>
+            </FontString>
+          </Layer>
+        </Layers>
+		<Scripts>
+			<OnShow>
+				self.gameclasstype = "DEATHKIGHT";
+			</OnShow>
+		</Scripts>
+      </CheckButton>
+    </Frames>
+  </Frame>
+</Ui>
