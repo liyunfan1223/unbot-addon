@@ -348,28 +348,28 @@ function SubCommandButton_OnLeftClick(index)
 				DisplayInfomation("选择目标不在你的队伍中。");
 				return;
 			end
-			if (not IsRealPartyLeader()) then
-				DisplayInfomation("你当前不是队伍领袖。");
-			else
-				SendChatMessage(UnBotExecuteCommand[index], "WHISPER", nil, targetName);
-			end
+			-- if (not IsRealPartyLeader()) then
+			-- 	DisplayInfomation("你当前不是队伍领袖。");
+			-- else
+			SendChatMessage(UnBotExecuteCommand[index], "WHISPER", nil, targetName);
+			-- end
 		elseif (UnBotCommandType[index] == 3) then
 			local targetName = UnitName("target");
 			if (targetName == nil or targetName == "") then
 				DisplayInfomation("你当前没有选择目标。");
 				return;
 			end
-			if (not IsRealPartyLeader()) then
-				DisplayInfomation("你当前不是队伍领袖。");
-			else
-				SendChatMessage(UnBotExecuteCommand[index], "PARTY");
-			end
+			-- if (not IsRealPartyLeader()) then
+			-- 	DisplayInfomation("你当前不是队伍领袖。");
+			-- else
+			SendChatMessage(UnBotExecuteCommand[index], "PARTY");
+			-- end
 		elseif (UnBotCommandType[index] == 4) then
-			if (not IsRealPartyLeader()) then
-				DisplayInfomation("你当前不是队伍领袖。");
-			else
-				SendChatMessage(UnBotExecuteCommand[index], "PARTY");
-			end
+			-- if (not IsRealPartyLeader()) then
+			-- 	DisplayInfomation("你当前不是队伍领袖。");
+			-- else
+			SendChatMessage(UnBotExecuteCommand[index], "PARTY");
+			-- end
 		else
 			DisplayInfomation("You click button index "..tostring(index)..", execute "..UnBotExecuteCommand[index]);
 		end

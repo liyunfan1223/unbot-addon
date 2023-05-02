@@ -403,13 +403,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			(self,1,"召唤圣骑士NPC","圣骑士",".npcbot add qs");
+			(self,1,"召唤圣骑士BOT","圣骑士",".bot addclass paladin");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".npcbot add qs", "SAY");
+			SendChatMessage(".bot addclass paladin", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
