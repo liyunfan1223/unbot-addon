@@ -391,17 +391,17 @@ UnBotTooltipHelp = {
 
 UnBotExecuteCommand = {
 [1] = "",
-[2] = ".bot init=epic",
-[3] = ".bot init=epic *",
--- [4] = ".bot update",
+[2] = ".playerbot bot init=epic",
+[3] = ".playerbot bot init=epic *",
+-- [4] = ".playerbot bot update",
 [5] = ".reset talents",
--- [6] = ".bot talent=1",
--- [7] = ".bot talent=2",
--- [8] = ".bot talent=3",
+-- [6] = ".playerbot bot talent=1",
+-- [7] = ".playerbot bot talent=2",
+-- [8] = ".playerbot bot talent=3",
 [9] = "reset ai",--/p
 [10] = "reset ai",--/w %s 
 [11] = "inspect",--/w %s
--- [12] = ".bot initforlevel ",
+-- [12] = ".playerbot bot initforlevel ",
 [13] = "summon",--/p
 [14] = "summon",--/w %s 
 [15] = "follow",--/p
@@ -466,17 +466,17 @@ UnBotExecuteCommand = {
 [74] = "online",
 [75] = "",--/w %s 
 [76] = "stay",--/w %s 
-[77] = ".bot addclass",
+[77] = ".playerbot bot addclass",
 [78] = "friends online",
 [79] = "friends invite",
 -- [80] = "ready check",
 [81] = "drink",
-[82] = ".bot remove *",
-[83] = ".bot add *",
+[82] = ".playerbot bot remove *",
+[83] = ".playerbot bot add *",
 [84] = "naxx",
 [85] = "reset",
-[86] = ".bot remove",
-[87] = ".bot add",
+[86] = ".playerbot bot remove",
+[87] = ".playerbot bot add",
 -- [88] = "add friends"
 };
 

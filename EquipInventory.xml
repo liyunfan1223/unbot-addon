@@ -26,7 +26,8 @@
             </OnLeave>
             <OnClick>
 				if (self.item ~= nil) then
-					local itemLink = "|cffffffff|Hitem:"..tostring(self.item[3])..":0:0:0:0:0:0:0|h["..tostring(self.item[5]).."]|h|r";
+					local itemLink
+				  _,itemLink,_,_,_,_,_,_,_,_ = GetItemInfo(tostring(self.item[3]));
 					SendChatMessage("e "..tostring(itemLink), "WHISPER", nil, self.targetName);
 					UnBotStartReloadInspectFrame();
 				end

@@ -57,7 +57,7 @@ function CommandFriendsOnline(index)
 		for x=1,num,1 do
 			local name,level,className,un2,online,un4 = GetFriendInfo(x);
 			if (name ~= nil) then
-				SendChatMessage(".bot add "..name, "SAY");
+				SendChatMessage(".playerbot bot add "..name, "SAY");
 			end
 		end
 	else

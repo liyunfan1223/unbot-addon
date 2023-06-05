@@ -19,7 +19,8 @@ function UnBotCheckOffHand(dstFrame, targetName)
 				end
 			end
 			if (selectItem ~= nil) then
-				local itemLink = "|cffffffff|Hitem:"..tostring(selectItem[3])..":0:0:0:0:0:0:0|h["..tostring(selectItem[5]).."]|h|r";
+				local itemLink
+				_,itemLink,_,_,_,_,_,_,_,_ = GetItemInfo(tostring(selectItem[3]));
 				SendChatMessage("e "..tostring(itemLink), "WHISPER", nil, targetName);
 				dstFrame.canCheckEquip = false;
 				for i=1, #(dstFrame.bagItems) do

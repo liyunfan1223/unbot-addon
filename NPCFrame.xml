@@ -91,13 +91,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤战士BOT","战士",".bot addclass warrior");
+			NPCCommand_OnEnter(self,1,"召唤战士BOT","战士",".playerbot bot addclass warrior");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass warrior", "SAY");
+			SendChatMessage(".playerbot bot addclass warrior", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -130,13 +130,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤法师BOT","法师",".bot addclass mage");
+			NPCCommand_OnEnter(self,1,"召唤法师BOT","法师",".playerbot bot addclass mage");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass mage", "SAY");
+			SendChatMessage(".playerbot bot addclass mage", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -169,13 +169,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤盗贼BOT","盗贼",".bot addclass rogue");
+			NPCCommand_OnEnter(self,1,"召唤盗贼BOT","盗贼",".playerbot bot addclass rogue");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass rogue", "SAY");
+			SendChatMessage(".playerbot bot addclass rogue", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -208,13 +208,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤德鲁伊BOT","德鲁伊",".bot addclass druid");
+			NPCCommand_OnEnter(self,1,"召唤德鲁伊BOT","德鲁伊",".playerbot bot addclass druid");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass druid", "SAY");
+			SendChatMessage(".playerbot bot addclass druid", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -247,13 +247,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤猎人BOT","猎人",".bot addclass hunter");
+			NPCCommand_OnEnter(self,1,"召唤猎人BOT","猎人",".playerbot bot addclass hunter");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass hunter", "SAY");
+			SendChatMessage(".playerbot bot addclass hunter", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -286,13 +286,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤萨满BOT","萨满",".bot addclass shaman");
+			NPCCommand_OnEnter(self,1,"召唤萨满BOT","萨满",".playerbot bot addclass shaman");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass shaman", "SAY");
+			SendChatMessage(".playerbot bot addclass shaman", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -325,13 +325,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤牧师BOT","牧师",".bot addclass priest");
+			NPCCommand_OnEnter(self,1,"召唤牧师BOT","牧师",".playerbot bot addclass priest");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass priest", "SAY");
+			SendChatMessage(".playerbot bot addclass priest", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -364,13 +364,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤术士BOT","术士",".bot addclass warlock");
+			NPCCommand_OnEnter(self,1,"召唤术士BOT","术士",".playerbot bot addclass warlock");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass warlock", "SAY");
+			SendChatMessage(".playerbot bot addclass warlock", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -403,13 +403,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			(self,1,"召唤圣骑士BOT","圣骑士",".bot addclass paladin");
+			NPCCommand_OnEnter(self,1,"召唤圣骑士BOT","圣骑士",".playerbot bot addclass paladin");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass paladin", "SAY");
+			SendChatMessage(".playerbot bot addclass paladin", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
@@ -442,13 +442,13 @@
         </Anchors>
         <Scripts>
 		  <OnEnter>
-			NPCCommand_OnEnter(self,1,"召唤死亡骑士BOT","死亡骑士",".bot addclass dk");
+			NPCCommand_OnEnter(self,1,"召唤死亡骑士BOT","死亡骑士",".playerbot bot addclass dk");
 		  </OnEnter>
 		  <OnLeave>
 			GameTooltip:Hide();
 		  </OnLeave>
           <OnClick>
-			SendChatMessage(".bot addclass dk", "SAY");
+			SendChatMessage(".playerbot bot addclass dk", "SAY");
 		  </OnClick>
         </Scripts>
         <NormalTexture setAllPoints="true" file="interface\glues\charactercreate\ui-charactercreate-classes">
