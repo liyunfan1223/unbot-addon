@@ -398,8 +398,8 @@ UnBotExecuteCommand = {
 -- [6] = ".playerbot bot talent=1",
 -- [7] = ".playerbot bot talent=2",
 -- [8] = ".playerbot bot talent=3",
-[9] = "reset ai",--/p
-[10] = "reset ai",--/w %s 
+[9] = "reset botAI",--/p
+[10] = "reset botAI",--/w %s 
 [11] = "inspect",--/w %s
 -- [12] = ".playerbot bot initforlevel ",
 [13] = "summon",--/p
