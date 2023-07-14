@@ -465,8 +465,9 @@ function ExecuteCommandByBagsItem(bagsFrame,index)
 		end
 		if (bagsFrame.bagsType == 1) then
 			local itemID = bagsFrame.dataGroup[index][2];
-			local itemName = bagsFrame.dataGroup[index][3];
-			local itemLink = "|cffffffff|Hitem:"..tostring(itemID)..":0:0:0:0:0:0:0|h["..itemName.."]|h|r";
+			-- local itemName = bagsFrame.dataGroup[index][3];
+			local itemLink
+			_,itemLink,_,_,_,_,_,_,_,_ = GetItemInfo(tostring(itemID));
 			SendChatMessage(bagsFrame.command..itemLink, "WHISPER", nil, bagsFrame.target);
 		elseif (bagsFrame.bagsType == 2) then
 			local itemID = bagsFrame.dataGroup[index][2];

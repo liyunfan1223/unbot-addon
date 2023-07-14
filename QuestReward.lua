@@ -101,7 +101,8 @@ function UnBotSelectQuestReward(self, item)
 	if (self == nil or item == nil or item[2] == nil or item[2] == true) then
 		return;
 	end
-	local itemLink = "|cffffffff|Hitem:"..tostring(item[1])..":0:0:0:0:0:0:0|h["..item[5].."]|h|r";
+	local itemLink
+	_,itemLink,_,_,_,_,_,_,_,_ = GetItemInfo(tostring(item[1]));
 	SendChatMessage("r "..itemLink, "WHISPER", nil, item[3]);
 	local qr = self:GetParent();
 	UnBotRemoveByQRFrame(qr);
